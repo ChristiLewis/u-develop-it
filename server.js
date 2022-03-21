@@ -32,7 +32,12 @@ const db = mysql.createConnection(
 //     });
 //   });
 
- //ADD A ROUTE AFTER THE GET ROUTE TO HANDLE ERRONEOUS REQUEST NOT HANDLED BY THE APP
+//QUERY THE DATABASE TO TEST THE CONNECTION
+db.query(`SELECT * FROM candidates`, (err, rows) => {
+  console.log(rows);
+});
+
+ //ADD A CATCHALL ROUTE AFTER THE GET ROUTE TO HANDLE ERRONEOUS REQUEST NOT HANDLED BY THE APP
  app.use((req, res) => {
     res.status(404).end();
   });

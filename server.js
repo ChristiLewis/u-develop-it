@@ -42,8 +42,9 @@ const db = mysql.createConnection(
 //     res.status(404).end();
 //   });
 
-//GET ALL CANDIDATES
+//GET ALL CANDIDATES NOTE: THE API IN THE URL SIGNIFIES IT IS AN API ENDPOINT
 app.get('/api/candidates', (req, res) => {
+  //SQL STATEMENT IS ASSIGNED TO THE SQL VARIABLE
   const sql = `SELECT * FROM candidates`;
 
   db.query(sql, (err, rows) => {
@@ -76,7 +77,26 @@ app.get('/api/candidate/:id', (req, res) => {
 });
 
 //DELTE CANDIDATE
+app.delete('/api/candidate/:id', (req, res) => {
+  const sql = `DELETE FROM candidates WHERE id = ?`;
+  const params = [req.params.id];
 
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      res.statusMessage(400).json({ error: res.message });
+    } else if (!result.affectedRows) {
+      res.json({
+        message: 'Candidate not found'
+      });
+    } else {
+      res.json({
+        message: 'deleted',
+        changes: result.affectedRows,
+        id: req.params.id
+      });
+    }
+  });
+});
 
 //CREATE CANDIDATE
  
